@@ -1,0 +1,20 @@
+@import './variable.scss'; 
+
+.c-article-latest {
+    margin-bottom: 14px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #F4F5F8;
+
+    p{
+        color: $blue;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+    h3 {
+        color: $black;
+        font-size: 1.6rem;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+}

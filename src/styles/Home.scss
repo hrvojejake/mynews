@@ -1,0 +1,27 @@
+@import './variable.scss';
+
+.l-page-home {
+    grid-template-rows: auto auto min-content
+}
+
+.l-page-home-header-mob {
+    padding-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    
+    button{
+        margin-bottom: 16px;
+        padding: 10px 17px;
+        border-radius: 20px;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: $dark;
+        background-color: transparent;
+        &.active {
+            color: $primary;
+            background-color: rgba(187, 30, 30, 0.1);
+        }
+    }
+}

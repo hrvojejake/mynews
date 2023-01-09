@@ -1,0 +1,109 @@
+@import './variable.scss';
+
+
+.l-make-homepage {
+    background-color: $primary;
+    background-size: cover;
+    color: $white;
+    padding-top: 9px;
+    position: relative;
+    isolation: isolate;
+    z-index: 3;
+
+    .container{
+        position: relative;
+    }
+    img {
+        //background-color: $primary;
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .row {
+        justify-content: space-between;
+        align-items: center;
+        @media screen and (max-width: 767px){
+            text-align: center;
+            justify-content: center;
+        }
+    }
+    strong {
+        margin-right: 46px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+    span  {
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .c-make-homepage-get {
+        padding: 10px 20px;
+        background-color: $white;
+        border-radius: 8px;
+        color: $dark;
+        font-weight: 600;
+        margin-right: 24px;
+        font-size: 1.4rem;
+        margin-bottom: 11px;
+        transition: 0.4s;
+        box-shadow: 0 0 0 rgba(0,0,0,.6);
+        &:hover{
+            color: #777;
+            box-shadow: 0 0 10px rgba(0,0,0,.6);
+        }
+    }
+    .c-make-homepage-no {
+        background-color: transparent;
+        color:  $white;
+        font-weight: 600;
+        font-size: 1.4rem;
+        filter: drop-shadow(0 0 0 rgba(0,0,0,.8));
+        transition: 0.4s;
+        &:hover {
+            filter: drop-shadow(4px 4px 6px rgba(0,0,0,.8));
+        }
+    }
+    /*instructions*/
+    article {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: $white;
+        padding: 32px 22px 40px 22px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,.7);
+        button {
+            position: absolute;
+            top: 6px;
+            right:8px;
+            z-index: 3;
+            background-color: transparent;
+            padding: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 2px 8px;
+            border: 1px solid rgba(0,0,0,.6);
+            transition: all 0.4s;
+            box-shadow: 0 0 0 rgba(0,0,0,.6);
+            @media screen and (min-width:1200px){
+                top: 20px;
+                right: 22px;
+                padding: 5px 12px;
+            }
+            &:hover {
+                opacity: 0.6;
+                box-shadow: 0 0 6px rgba(0,0,0,.6);
+                
+            }
+        }
+    }
+}

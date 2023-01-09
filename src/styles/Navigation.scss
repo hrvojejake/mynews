@@ -1,0 +1,74 @@
+@import './variable.scss'; 
+
+nav{
+display: flex;
+flex-wrap: wrap;
+gap: 15px;
+height: 0;
+overflow: hidden;
+transition: .5s;
+flex-basis: 100%;
+align-content: flex-start;
+@media screen and (min-width:1200px){
+    overflow: visible;
+    flex-basis: unset;
+    align-content: unset;
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
+    height: unset;
+}
+
+    .c-nav-link {
+        height: 95px;
+        width: 95px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: .5;
+        text-decoration: none;
+        color: $black;
+        font-size: 1.4rem;
+        font-weight: 600;
+        @media screen and (min-width:1200px){
+            height: 63px;
+            width: 63px;
+            font-size: 1rem;
+        }
+        &.active{
+            background-color: $white;
+            color: $primary;
+            opacity: 1;
+        }
+        &:hover {
+            background-color: $white;
+            color: $primary;
+            opacity: 1;
+            box-shadow: 0px 6px 36px rgba(0, 0, 0, 0.16);
+        }
+
+        i {
+            font-size: 2.4rem;
+            margin-bottom: 6px;
+            @media screen and (min-width:1200px){
+                font-size: 2rem;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    .open-menu &{
+        display: flex;
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-content: flex-start;
+        height: 315px;
+        height: 1415px;
+        .c-nav-link {
+            flex-basis: 95px;
+        }
+    }
+}

@@ -1,25 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.scss';
+import { Routes, Route } from "react-router-dom";
+import MakeHomepageCTA from './components/MakeHomepageCTA';
+import Header from './components/Header';
+import Search from './components/Search';
+import Home from './pages/Home';
+import CategoryPage from './pages/CategoryPage';
+import Error404 from './pages/Error404';
+import articlesData from './data/home.json'
+import { useState } from 'react';
+import Navigation from './components/Navigation';
+import { useMyNews } from './context/MyNewsContext';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 function App() {
+  const { openMenu} = useMyNews();
+  const client = new QueryClient({defaultOptions: {queries: {refetchOnWindowFocus:false}}})
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className={`App ${openMenu?'open-menu':''}`}>
+        <QueryClientProvider client={client}>
+          <MakeHomepageCTA />
+          <div className='container l-page'>
+            <Header>
+              <Search />
+            </Header>
+            <div className='l-page-main-wrap'>
+              <Navigation />
+              <main>
+        
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/:category" element={<CategoryPage />} />
+                <Route path="*" element={<Error404 />} />
+              </Routes>
+              </main>   
+            </div>
+          </div>
+        </QueryClientProvider>
+      </div>
   );
 }
 

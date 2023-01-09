@@ -1,0 +1,150 @@
+@import './variable.scss';
+
+/* css reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* Reapply the pointer cursor for anchor tags */
+a,
+button {
+  cursor: pointer;
+  border: none;
+}
+
+h1,h2,h3,h4,h5,h6,p,li {
+  margin: 0 0 10px 0;
+  color: $dark;
+}
+
+/* For images to not be able to exceed their container */
+img {
+  max-width: 100%;
+}
+
+/* Safari - solving issue when using user-select:none on the <body> text input doesn't working */
+input,
+textarea {
+  -webkit-user-select: auto;
+}
+
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+  white-space: revert;
+}
+
+/* reset default text opacity of input placeholder */
+::placeholder {
+  color: unset;
+}
+
+/* apply back the draggable feature - exist only in Chromium and Safari */
+:where([draggable="true"]) {
+  -webkit-user-drag: element;
+}
+
+/* main font */
+@font-face{font-family:"Default";
+    src:url(../fonts/Inter.ttf) 
+    format("truetype-variations");
+    font-weight:100 900;
+    font-stretch:25% 151%
+}
+
+/* icon font */
+@font-face {
+  font-family: 'mynews';
+  src:  url('../fonts/mynews.woff?13d2x2') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="mynews-"], [class*=" mynews-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'mynews' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mynews-Business:before {
+  content: "\62";
+}
+.mynews-General:before {
+  content: "\67";
+}
+.mynews-Health:before {
+  content: "\65";
+}
+.mynews-Home:before {
+  content: "\68";
+}
+.mynews-Science:before {
+  content: "\63";
+}
+.mynews-Search:before {
+  content: "\73";
+}
+.mynews-Sports:before {
+  content: "\70";
+}
+.mynews-Technology:before {
+  content: "\74";
+}
+.mynews-star-empty:before {
+  content: "\72";
+}
+.mynews-star-full:before {
+  content: "\66";
+}
+
+
+html {
+    font-size: 10px;
+}
+body {
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    margin: 0;
+    font: normal 1.6rem "Default","Arial", sans-serif; 
+    background-color: $light;
+}
+
+.container{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    @media screen and (min-width: 576px){
+        max-width: 540px;
+    }
+    @media screen and (min-width: 768px){
+        max-width: 720px;
+    }
+    @media screen and (min-width: 992px){
+        max-width: 960px;
+    }
+    @media screen and (min-width: 1200px){
+        max-width: 1094px;
+    }
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+main {
+  width: 100%;
+}
