@@ -2,11 +2,11 @@ import ArticleLatest from "./ArticleLatest";
 import "../styles/LatestArticles.scss";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useRef, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+
 const LatestArticles = () => {
-  const scrollWindow = useRef<HTMLDivElement>(null);
   const fetchProjects = ({ pageParam = 1 }) => {
     return axios
       .get(
@@ -56,10 +56,8 @@ const LatestArticles = () => {
   if (status === "error") return <p>Error...</p>;
 
   return (
-    <div className="l-latest-articles-wrapper">
-      <h3 className="c-latest-articles-wrap-title">Latest news</h3>
       <section className="c-latest-articles-wrap" id="scrollableDiv">
-        <div className="c-latest-articles" ref={scrollWindow}>
+        <div className="c-latest-articles" >
           <InfiniteScroll
             dataLength={characters ? characters.length : 0}
             next={() => fetchNextPage()}
@@ -74,11 +72,7 @@ const LatestArticles = () => {
 
           <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
         </div>
-      </section>
-      <div className="c-latest-articles-btn-wrap">
-        <button className="c-latest-articles-btn">See all news</button>
-      </div>
-    </div>
+      </section>  
   );
 };
 

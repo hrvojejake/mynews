@@ -11,6 +11,9 @@ type MyNewsProviderProps = {
     openMenu: boolean
     setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
     windowWidth: number
+    searchTerm: string
+    setSearchTerm:  React.Dispatch<React.SetStateAction<string>>;
+
   };
 
 export const MyNewsContext = createContext({} as MyNewsContext);
@@ -41,6 +44,9 @@ export const MyNewsProvider = ({ children }: MyNewsProviderProps) => {
        setWindowWidth(width)
      }
 
+     /*for search query */
+     const [searchTerm, setSearchTerm]=useState<string>('')
+
  
   
     return (
@@ -52,7 +58,9 @@ export const MyNewsProvider = ({ children }: MyNewsProviderProps) => {
             setShowCTABuble,
             openMenu,
             setOpenMenu,
-            windowWidth
+            windowWidth,
+            searchTerm, 
+            setSearchTerm
         }}
       >
       

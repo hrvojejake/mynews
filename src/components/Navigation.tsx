@@ -7,6 +7,7 @@ const Navigation = ()=>{
         <nav>
             {navigationData.map(item=>(
                 <NavLink 
+                key={item.title}
                 className={({ isActive }) =>
                 isActive ? "active c-nav-link" : "c-nav-link"
             }

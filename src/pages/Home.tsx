@@ -1,6 +1,7 @@
 import Article from "../components/Article"
-import LatestArticles from "../components/LatestArticles";
 import '../styles/Home.scss';
+import LatestArticleWrap from "../components/LatestArticleWrap";
+import LatestArticles from "../components/LatestArticles";
 import { useMyNews } from '../context/MyNewsContext';
 import { useState } from "react";
 import axios from 'axios'
@@ -48,7 +49,9 @@ const Home = () => {
     windowWidth>1200?<>
         <h3>News</h3>
         <section className="l-page-main l-page-home">
-          <LatestArticles />
+        <LatestArticleWrap>
+            <LatestArticles />
+          </LatestArticleWrap>
           {
             filteredArticles.slice(0,13).map(article=>(
               <Article article={article} />
@@ -79,7 +82,9 @@ const Home = () => {
           </section>
         }
        {mobileView==='latest' && <section className="l-page-main l-page-home-latest">
-          <LatestArticles />
+          <LatestArticleWrap>
+            <LatestArticles />
+          </LatestArticleWrap>
           </section>
        }
        {
