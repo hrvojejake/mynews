@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useContext, useState, useEffect } from "react";
+import { useLocalStorage} from '../hooks/useLocalStorage'
+
 type MyNewsProviderProps = {
     children: ReactNode;
   };
@@ -12,9 +14,30 @@ type MyNewsProviderProps = {
     setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
     windowWidth: number
     searchTerm: string
-    setSearchTerm:  React.Dispatch<React.SetStateAction<string>>;
-
+    setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+    searchPage: number
+    setSearchPage: React.Dispatch<React.SetStateAction<number>>;
+    maxSearchPage: number
+    setMaxSearchPage: React.Dispatch<React.SetStateAction<number>>;
+    searchData: filteredArticleProps[]
+    setSearchData: React.Dispatch<React.SetStateAction<filteredArticleProps[]>>;
+    searchDataTrue: boolean
+    setSearchDataTrue: React.Dispatch<React.SetStateAction<boolean>>;
+    searchLoading: boolean
+    setSearchLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    favoriteArticles: filteredArticleProps[]
+    setFavoriteArticles: React.Dispatch<React.SetStateAction<filteredArticleProps[]>>;
   };
+
+  type filteredArticleProps = {
+    uri: string;
+    title: string;
+    section: string;
+    author: string;
+    image: any;
+    url: string;
+  };
+  
 
 export const MyNewsContext = createContext({} as MyNewsContext);
 
@@ -46,9 +69,15 @@ export const MyNewsProvider = ({ children }: MyNewsProviderProps) => {
 
      /*for search query */
      const [searchTerm, setSearchTerm]=useState<string>('')
+     const [searchPage, setSearchPage]=useState<number>(1)
+     const [maxSearchPage, setMaxSearchPage]=useState<number>(1)
+     const [searchData, setSearchData] = useState<filteredArticleProps[]>([])
+     const [searchDataTrue, setSearchDataTrue] = useState<boolean>(false)
+     const [searchLoading, setSearchLoading] = useState<boolean>(false)
 
- 
-  
+     /* Favorite */
+     const [favoriteArticles, setFavoriteArticles] = useLocalStorage<filteredArticleProps[]>('my-news',[]);
+
     return (
       <MyNewsContext.Provider
         value={{
@@ -60,7 +89,19 @@ export const MyNewsProvider = ({ children }: MyNewsProviderProps) => {
             setOpenMenu,
             windowWidth,
             searchTerm, 
-            setSearchTerm
+            setSearchTerm,
+            searchPage, 
+            setSearchPage,
+            maxSearchPage, 
+            setMaxSearchPage,
+            searchData,
+            setSearchData,
+            searchDataTrue,
+            setSearchDataTrue,
+            searchLoading, 
+            setSearchLoading,
+            favoriteArticles, 
+            setFavoriteArticles
         }}
       >
       

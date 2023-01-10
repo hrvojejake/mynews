@@ -6,6 +6,8 @@ import { useMyNews } from "../context/MyNewsContext";
 import { useState, useMemo } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import FavoriteArticles from "../components/FavoriteArticles";
+import adArticles from "../data/ads.json";
 
 type filteredArticleProps = {
   uri: string;
@@ -13,10 +15,11 @@ type filteredArticleProps = {
   section: string;
   author: string;
   image: any;
+  url?:string
 };
 
 const Home = () => {
-  const { windowWidth } = useMyNews();
+  const { windowWidth, favoriteArticles } = useMyNews();
   const [mobileView, setMobileView] = useState<string>("default");
   const {
     data: newsData,
@@ -36,7 +39,7 @@ const Home = () => {
 
   const filteredArticles = useMemo(() => {
     if (newsData) {
-      return newsData?.results.map((ar: any) => {
+      const articlesBeforeManipulation = newsData?.results.map((ar: any) => {
         const category =
           ar.section === "business" ||
           ar.section === "health" ||
@@ -55,6 +58,19 @@ const Home = () => {
             .map((e: any) => e.url)
         };
       });
+
+      articlesBeforeManipulation[Math.floor(Math.random() * 4)].section='breaking'
+      const adsArticles = adArticles;
+      console.log(adsArticles)
+      console.log(articlesBeforeManipulation)
+      
+      for(let i=0;i<adArticles.length; i++){
+        articlesBeforeManipulation.splice(i*6 + 6,0,adsArticles[i])
+      }
+
+      console.log(articlesBeforeManipulation)
+
+      return articlesBeforeManipulation
     }
     if (!newsData) {
       return [{}];
@@ -84,6 +100,7 @@ const Home = () => {
                     ))
                 : null}
             </section>
+            <FavoriteArticles />
           </>
         ) : (
           <>
@@ -100,21 +117,23 @@ const Home = () => {
               >
                 Latest
               </button>
-              <button
-                className={`${mobileView === "favorite" && "active"}`}
+              <button className={`${mobileView === "favorite" && "active"}`}
                 onClick={() => setMobileView("favorite")}
               >
                 Favorite
               </button>
             </div>
             {mobileView === "default" && (
+              <>
+              <h3>News</h3>
               <section className="l-page-main l-page-home-mob">
                 {filteredArticles.length > 1
                   ? filteredArticles.map((article: filteredArticleProps) => (
-                      <Article article={article} key={article.uri} />
+                    <Article article={article} key={article.uri} />
                     ))
-                  : null}
+                    : null}
               </section>
+                    </>
             )}
             {mobileView === "latest" && (
               <section className="l-page-main l-page-home-latest">
@@ -124,9 +143,7 @@ const Home = () => {
               </section>
             )}
             {mobileView === "favorite" && (
-              <section className="l-page-main l-page-home-fav">
-                <h1>Favorite articles</h1>
-              </section>
+              <FavoriteArticles />
             )}
           </>
         )

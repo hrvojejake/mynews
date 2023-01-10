@@ -1,0 +1,22 @@
+[
+    {
+        "uri": "profico-ad-001",
+        "title": "We're hiring Frontend Developer",
+        "section": "ad",
+        "author": "Profico",
+        "image": [
+            "/img/profico1.jpg"
+        ],
+        "url": "https://profi.co/careers"
+    },
+    {
+        "uri": "profico-ad-001",
+        "title": "Open position Product designer",
+        "section": "ad",
+        "author": "Profico",
+        "image": [
+            "/img/profico2.jpg"
+        ],
+        "url": "https://profi.co/careers"
+    }
+]
