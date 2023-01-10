@@ -5,7 +5,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-
 const LatestArticles = () => {
   const fetchProjects = ({ pageParam = 1 }) => {
     return axios
@@ -56,23 +55,23 @@ const LatestArticles = () => {
   if (status === "error") return <p>Error...</p>;
 
   return (
-      <section className="c-latest-articles-wrap" id="scrollableDiv">
-        <div className="c-latest-articles" >
-          <InfiniteScroll
-            dataLength={characters ? characters.length : 0}
-            next={() => fetchNextPage()}
-            hasMore={!more}
-            loader={<h4>Loading...</h4>}
-            scrollableTarget="scrollableDiv"
-          >
-            {characters?.map((article: any) => (
-              <ArticleLatest article={article} />
-            ))}
-          </InfiniteScroll>
+    <section className="c-latest-articles-wrap" id="scrollableDiv">
+      <div className="c-latest-articles">
+        <InfiniteScroll
+          dataLength={characters ? characters.length : 0}
+          next={() => fetchNextPage()}
+          hasMore={!more}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollableDiv"
+        >
+          {characters?.map((article: any) => (
+            <ArticleLatest article={article} key={article.uri} />
+          ))}
+        </InfiniteScroll>
 
-          <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
-        </div>
-      </section>  
+        <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      </div>
+    </section>
   );
 };
 
