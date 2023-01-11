@@ -23,6 +23,9 @@
       background-color: $primary;
       color: white;
       border-color: $primary;
+    }   
+    &[disabled]:hover {
+      cursor: auto;
     }
   }
 }

@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
 import ArticleLatest from "./ArticleLatest";
 import "../styles/LatestArticles.scss";
+import {LatestNewRawDataRootObject, LatestNewRawDataArticle, articleItemLatestProps} from '../types/types'
 
 const LatestArticles = () => {
   /* axios setup, page size is 10, can go till 100 */
@@ -22,7 +23,7 @@ const LatestArticles = () => {
       queryFn: fetchProjects,
       getNextPageParam: (lastPage, pages) => {
         const maxPages = lastPage.totalResults / 10 + 1;
-        const nextPage = pages.length + 1;
+        const nextPage = pages?.length + 1;
         return nextPage <= maxPages ? nextPage : undefined;
       }
     });
@@ -30,13 +31,13 @@ const LatestArticles = () => {
   const characters = useMemo(
     () =>
       data?.pages
-        .flatMap((page: any) => page.articles)
-        .map((ar: any) => {
-          const hour = new Date(ar.publishedAt).getHours().toString();
-          const min = new Date(ar.publishedAt).getMinutes().toString();
+        .flatMap((page: LatestNewRawDataRootObject) => page.articles)
+        .map((article: LatestNewRawDataArticle) => {
+          const hour = new Date(article.publishedAt).getHours().toString();
+          const min = new Date(article.publishedAt).getMinutes().toString();
           return {
-            uri: ar.url,
-            title: ar.title,
+            uri: article.url,
+            title: article.title,
             hours: hour.length === 1 ? "0" + hour : hour,
             minutes: min.length === 1 ? "0" + min : min
           };
@@ -59,7 +60,7 @@ const LatestArticles = () => {
           loader={<Loader />}
           scrollableTarget="scrollableDiv"
         >
-          {characters?.map((article: any) => (
+          {characters?.map((article: articleItemLatestProps) => (
             <ArticleLatest article={article} key={article.uri} />
           ))}
         </InfiniteScroll>

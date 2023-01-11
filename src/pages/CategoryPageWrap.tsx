@@ -6,7 +6,7 @@ import "../styles/CategoryPage.scss";
 const CategoryPageWrap = () => {
   const location = useLocation();
 
-  /* depending on   */
+  /* depending on pathname render category or search*/
   if (location.pathname.search("search") > 0) return <SearchPage />;
   if (location.pathname.search("category") > 0) return <CategoryPage />;
   return (

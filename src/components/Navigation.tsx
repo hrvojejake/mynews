@@ -4,7 +4,7 @@ import { useMyNews } from "../context/MyNewsContext";
 import "../styles/Navigation.scss";
 
 const Navigation = () => {
-  const { openMenu, setOpenMenu } = useMyNews();
+  const { setOpenMenu } = useMyNews();
   return (
     <nav>
       {navigationData.map((item) => (

@@ -2,15 +2,7 @@ import { useMyNews } from "../context/MyNewsContext";
 import Article from "../components/Article";
 import Loader from "../components/Loader";
 import "../styles/SearchPage.scss";
-
-type filteredArticleProps = {
-  uri: string;
-  title: string;
-  section: string;
-  author: string;
-  image: any;
-  url: string;
-};
+import { articleItemProps} from '../types/types'
 
 const SearchPage = () => {
   // const query = useParams()
@@ -47,8 +39,8 @@ const SearchPage = () => {
             </button>
           </div>
           <section className="l-page-main ">
-            {searchData.length > 1
-              ? searchData.map((article: filteredArticleProps) => (
+            {searchData?.length > 1
+              ? searchData.map((article: articleItemProps) => (
                   <Article article={article} key={article.uri} />
                 ))
               : null}

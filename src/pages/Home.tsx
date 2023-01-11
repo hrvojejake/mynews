@@ -10,15 +10,7 @@ import { useLocation } from "react-router-dom";
 import Loader from "../components/Loader";
 import adArticles from "../data/ads.json";
 import "../styles/Home.scss";
-
-type filteredArticleProps = {
-  uri: string;
-  title: string;
-  section: string;
-  author: string;
-  image: string[];
-  url?: string;
-};
+import {NYTItem, articleItemProps} from '../types/types'
 
 const Home = () => {
   const { windowWidth, favoriteArticles, setSearchTerm } = useMyNews();
@@ -30,6 +22,7 @@ const Home = () => {
     if (location.pathname.search("search") < 0) {
       setSearchTerm("");
     }
+    // eslint-disable-next-line
   }, []);
 
   const {
@@ -50,30 +43,32 @@ const Home = () => {
 
   const filteredArticles = useMemo(() => {
     if (newsData) {
-      const articlesBeforeManipulation = newsData?.results.map((ar: any) => {
+      const articlesBeforeManipulation = newsData?.results.map((article: NYTItem) => {
+
         const category =
-          ar.section === "business" ||
-          ar.section === "health" ||
-          ar.section === "science" ||
-          ar.section === "sports" ||
-          ar.section === "technology"
-            ? ar.section
+        article.section === "business" ||
+          article.section === "health" ||
+          article.section === "science" ||
+          article.section === "sports" ||
+          article.section === "technology"
+            ? article.section
             : "general";
         return {
-          uri: ar.uri,
-          title: ar.title,
+          uri: article.uri,
+          title: article.title,
           section: category,
-          author: ar.byline.slice(3),
-          image: ar.multimedia
-            ?.filter((e: any, i: number) => i === 0)
-            .map((e: any) => e.url)
+          author: article.byline.slice(3),
+          image: article.multimedia?.[0]?.url,
+          url: article.url
         };
       });
 
+      /* adding breaking category for random element */
       articlesBeforeManipulation[Math.floor(Math.random() * 4)].section =
         "breaking";
       const adsArticles = adArticles;
-
+      
+      /* adding ads to news */
       for (let i = 0; i < adArticles.length; i++) {
         articlesBeforeManipulation.splice(i * 6 + 6, 0, adsArticles[i]);
       }
@@ -102,15 +97,15 @@ const Home = () => {
               <LatestArticleWrap>
                 <LatestArticles />
               </LatestArticleWrap>
-              {filteredArticles.length > 1
+              {filteredArticles?.length > 1
                 ? filteredArticles
                     .slice(0, 13)
-                    .map((article: filteredArticleProps) => (
+                    .map((article: articleItemProps) => (
                       <Article article={article} key={article.uri} />
                     ))
                 : null}
             </section>
-            {favoriteArticles.length > 0 && <FavoriteArticles />}
+            {favoriteArticles?.length > 0 && <FavoriteArticles />}
           </>
         ) : (
           <>
@@ -127,7 +122,7 @@ const Home = () => {
               >
                 Latest
               </button>
-              {favoriteArticles.length > 0 && (
+              {favoriteArticles?.length > 0 && (
                 <button
                   className={`${mobileView === "favorite" && "active"}`}
                   onClick={() => setMobileView("favorite")}
@@ -140,8 +135,8 @@ const Home = () => {
               <>
                 <h3>News</h3>
                 <section className="l-page-main l-page-home-mob">
-                  {filteredArticles.length > 1
-                    ? filteredArticles.map((article: filteredArticleProps) => (
+                  {filteredArticles?.length > 1
+                    ? filteredArticles.map((article: articleItemProps) => (
                         <Article article={article} key={article.uri} />
                       ))
                     : null}

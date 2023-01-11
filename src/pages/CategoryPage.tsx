@@ -6,6 +6,7 @@ import axios from "axios";
 import Article from "../components/Article";
 import Loader from "../components/Loader";
 import "../styles/CategoryPage.scss";
+import { NYTItem } from '../types/types'
 
 const CategoryPage = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ const CategoryPage = () => {
     if (location.pathname.search("search") < 0) {
       setSearchTerm("");
     }
+    // eslint-disable-next-line
   }, []);
 
   /* if data is not done */
@@ -51,24 +53,23 @@ const CategoryPage = () => {
   }
 
   /* when data is done filter it */
-  const allFilteredArticles = [...data.results].filter((el: any) => el.title);
-  const filteredArticles = allFilteredArticles.map((ar: any) => {
+  const allFilteredArticles = [...data.results].filter((element: NYTItem) => element.title);
+  const filteredArticles = allFilteredArticles.map((article: NYTItem) => {
     const category =
-      ar.section === "business" ||
-      ar.section === "health" ||
-      ar.section === "science" ||
-      ar.section === "sports" ||
-      ar.section === "technology"
-        ? ar.section
+      article.section === "business" ||
+      article.section === "health" ||
+      article.section === "science" ||
+      article.section === "sports" ||
+      article.section === "technology"
+        ? article.section
         : "general";
     return {
-      uri: ar.uri,
-      title: ar.title,
+      uri: article.uri,
+      title: article.title,
       section: category,
-      author: ar.byline.slice(3),
-      image: ar.multimedia
-        ?.filter((e: any, i: number) => i === 0)
-        .map((e: any) => e.url)
+      author: article.byline.slice(3),
+      image: article.multimedia?.[0]?.url,
+      url: article.url
     };
   });
 

@@ -1,14 +1,7 @@
 import { useMyNews } from "../context/MyNewsContext";
 import Article from "../components/Article";
+import {articleItemProps} from '../types/types'
 
-type filteredArticleProps = {
-  uri: string;
-  title: string;
-  section: string;
-  author: string;
-  image: string[];
-  url?: string;
-};
 
 const FavoriteArticles = () => {
   const { favoriteArticles } = useMyNews();
@@ -17,8 +10,8 @@ const FavoriteArticles = () => {
     <>
       <h3>Favorite articles</h3>
       <section className="l-page-main l-page-home-fav">
-        {favoriteArticles.length > 0
-          ? favoriteArticles.map((article: filteredArticleProps) => (
+        {favoriteArticles?.length > 0
+          ? favoriteArticles.map((article: articleItemProps) => (
               <Article article={article} key={article.uri} />
             ))
           : null}

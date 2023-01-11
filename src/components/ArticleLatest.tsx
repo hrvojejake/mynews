@@ -1,6 +1,7 @@
 import '../styles/ArticleLatest.scss';
+import { articleLatestProps} from '../types/types'
 
-const ArticleLatest = ({article}:any)=>{
+const ArticleLatest = ({article}:articleLatestProps)=>{
 
     return(
         <article key={article.uri} className="c-article-latest">

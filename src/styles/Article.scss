@@ -31,6 +31,7 @@
     text-transform: uppercase;
     margin-bottom: 2px;
   }
+
   h3 {
     color: $black;
     font-size: 1.6rem;
@@ -40,6 +41,12 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex-grow: 1;
+  }
+  .c-article-link{
+    text-decoration: none;
+    &:hover h3{
+      color: $primary;
+    }
   }
   .c-article-footer {
     display: flex;
@@ -84,6 +91,7 @@
     width: fit-content;
     margin-bottom: 5px;
   }
+
   h3 {
     font-size: 3.5rem;
     color: $white;
@@ -103,6 +111,7 @@
     right: 0;
   }
 }
+
 .c-article-ad.c-article {
   position: relative;
   &::after {
@@ -115,6 +124,9 @@
     background-color: $primary;
     border-radius: 4px;
   }
+  &:hover h3 {
+    color: $primary;
+  }
   .c-article-ad-link {
     border-radius: 8px;
     position: absolute;
@@ -122,6 +134,7 @@
     background-color: rgba(0, 0, 0, 0);
     transition: background-color 0.4s;
     z-index: 2;
+    font-size: 0;
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }

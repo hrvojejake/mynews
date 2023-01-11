@@ -6,6 +6,7 @@ import useDebounce from "../hooks/useDebounce";
 import axios from "axios";
 import adArticles from "../data/ads.json";
 import "../styles/Search.scss";
+import {SearchRawDataRootObject} from '../types/types'
 
 const Search = () => {
   const location = useLocation();
@@ -49,6 +50,7 @@ const Search = () => {
     if (location.pathname.search("search") < 0) {
       setSearchTerm("");
     }
+    // eslint-disable-next-line
   }, []);
 
   /* fetch data change of query page of search term */
@@ -56,41 +58,44 @@ const Search = () => {
     if (searchTerm) {
       refetch();
     }
+    // eslint-disable-next-line
   }, [searchPage, debouncedSearchQuery]);
 
   useEffect(() => {
     setSearchLoading(isLoading);
+    // eslint-disable-next-line
   }, [isLoading]);
 
   useEffect(() => {
     setSearchError(isError);
+    // eslint-disable-next-line
   }, [isError]);
 
-  const filteredArticles = data?.response.docs.map((ar: any) => {
+  const filteredArticles = data?.response.docs.map((article: SearchRawDataRootObject) => {
     let category =
-      ar.section_name === "Business" ||
-      ar.section_name === "Health" ||
-      ar.section_name === "Science" ||
-      ar.section_name === "Sports" ||
-      ar.section_name === "Technology"
-        ? ar.section_name
+      article.section_name === "Business" ||
+      article.section_name === "Health" ||
+      article.section_name === "Science" ||
+      article.section_name === "Sports" ||
+      article.section_name === "Technology"
+        ? article.section_name
         : "general";
-    if (ar.section_name === "Business Day") {
+    if (article.section_name === "Business Day") {
       category = "Business";
     }
-    const img = ar.multimedia
-      ?.filter((e: any, i: number) => i === 0)
-      .map((e: any) => e.url);
+    const img = article.multimedia?.[0]?.url
+    console.log(data)
+    console.log(img)
     return {
-      uri: ar.uri,
-      title: ar.headline.main,
+      uri: article.uri,
+      title: article.headline.main,
       section: category,
-      author: ar.byline.original,
-      image: img != "" ? `https://static01.nyt.com/${img}` : ""
+      author: article.byline.original,
+      image: img !== undefined ? `https://static01.nyt.com/${img}` : ""
     };
   });
 
-  /* on data change add ads and ad data to searchData state */
+  /* on data change add ads and add data to searchData state */
   useEffect(() => {
     if (data) {
       filteredArticles?.unshift(adArticles[0]);
@@ -99,10 +104,11 @@ const Search = () => {
       setSearchData(filteredArticles);
     }
     setSearchDataTrue(!!data);
+    // eslint-disable-next-line
   }, [data]);
 
   /* add on key down for Enter to go to search page*/
-  const keyPressHandler = (e: any) => {
+  const keyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       navigate("/search/");
     }

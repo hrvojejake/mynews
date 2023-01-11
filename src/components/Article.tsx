@@ -1,19 +1,21 @@
 import { useMyNews } from "../context/MyNewsContext";
 import ArticlePlaceholderImg from "../assets/images/Article-placeholder.jpg";
 import "../styles/Article.scss";
+import {articleProps,articleItemProps} from '../types/types'
 
-const Article = ({ article }: any) => {
+
+const Article = ({ article }: articleProps) => {
   const { favoriteArticles, setFavoriteArticles } = useMyNews();
 
   /* function for add/remove favorite article */
   const addFavorite = () => {
-    if (favoriteArticles.some((e) => e.uri === article.uri)) {
+    if (favoriteArticles.some((element) => element.uri === article.uri)) {
       setFavoriteArticles([
-        ...favoriteArticles.filter((e) => e.uri !== article.uri)
+        ...favoriteArticles.filter((element) => element.uri !== article.uri)
       ]);
     } else {
       setFavoriteArticles([
-        ...new Set<any>([...favoriteArticles, { ...article }])
+        ...new Set<articleItemProps>([...favoriteArticles, { ...article }])
       ]);
     }
   };
@@ -29,13 +31,13 @@ const Article = ({ article }: any) => {
 
       <div className="c-article-body">
         <h6>{article.section}</h6>
-        <h3>{article.title}</h3>
+        <a href={article.url} target='_blank' rel="noreferrer" className="c-article-link"><h3>{article.title}</h3></a> 
         <div className="c-article-footer">
           <p className="c-article-author">{article.author}</p>
           <div className="c-article-fav" onClick={addFavorite}>
             <i
               className={`mynews-star-${
-                favoriteArticles.some((e) => e.uri === article.uri)
+                favoriteArticles.some((element) => element.uri === article.uri)
                   ? "full"
                   : "empty"
               }`}
@@ -49,7 +51,7 @@ const Article = ({ article }: any) => {
           className="c-article-ad-link"
           target="_blank"
           rel="noopener noreferrer"
-        ></a>
+        >{article.title}</a>
       )}
     </article>
   );
