@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Frontend task: MyNews
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Stranice aplikacije
 
-## Available Scripts
+Aplikacija se sastoji od Home, Latest News, Search, stranica pojedine kategorije te Error404 stranice
 
-In the project directory, you can run:
+### Home
 
-### `npm start`
+Na Home stranici se nalaze sve novosti(News), Latest news i Favorite articles.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### News
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Od artikala sve novosti, nalazi se njih prvih 11 te dvi reklame. Razlog za taj broj je što se na desktop verziji dizajna vijesti nalaze u dva područja, jedno je od prve 4 vijesti, a dalje su redovi od po tri vijesti. Može se staviti i 16 artikala, ali to mi je na prvu izgledalo kao dosta scrollanja do Favorite articles, koji se nalaze ispod News. Na mobitelu nije bilo takvog rasporeda pa se vide sve News. Ukoliko članak nema sliku, prikazuje placeholder sliku od MyNews.
+U svrhu zadatka, dodao sam da jedan od prva četri članka bude kategorije Breaking, kako bi se vidio i taj prikaz. U dizajnu su se nalazile i reklame te sam dodao da sedmi i kasnije svaki šesti članak bude reklama koja je dodana iz posebnog ad.jsona. Na reklame se može kliknuti i odvest će na vanjsku stranicu. Ovo nije dodano člancima jer sam gledao da je ovo više pregled artikala.
 
-### `npm test`
+Za News sam koristio API od New York Timesa jer su imali kategorije u podacima članaka. Jedino je izazov bio što imaju mnogo više kategirja nego je predviđeno, a nemaju General kategoriju, stoga sam svim člancima koji nemaju predviđene kategorije, zamijenio kategoriju u General. Drugi API nema nazive kategorija u podacima članaka, ali ima predviđenu kategoriju General. Da sam koristio ovaj API za News morao bi pozvat 6 requesta, svaki za svoju kategoriju, te po primitku podataka, svim člancima u pojedinoj kategoriji dodijeliti pripadajuću kategoriju. A to mi je izgledalo kao dosta čekanja za korisnika.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Latest News
 
-### `npm run build`
+Za Latest News je trebalo implementirati infinite scroll te sam koristio News API iz razloga što ima poziv pagea. Šteta je što se dobije samo 37 članaka te sam iz razbio na 4 zahtjeva po pageSize od 10. Alternativno sam mogao koristiti isto New York Times API, samo da se prilikom scrolla dole ne šalje zahtjev API-u nego se prikaže sljedećih 10 artikala. Međutim u svrhu zadatka sam napravio ovako. Na dnu modula Lates news ne nalazi botun See all news, dodao sam da je to link na posebnu stranicu Latest news.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Favorite articles
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Klikom na zvjezdicu na članku u News ili bilokojoj kategoriji članak se dodaje na popis Favorite article. Da je članak dodan vidljivo je po ispunjenoj zvjezdici na članku te ih se kopija tog članka nalazi ispod Newsa na desktopu, odnosno klikom na Favorite botun na mobitelu. Favorite articles se spremaju u localstorage. Klikom na zvjezdicu članka koji se nalazi u popisu Favorite articles čalnak se miče iz tog popisa. Dizajnerski razlog za zvjezdice je jer su bile free ikone prazne i pune zvijezde, a crvena je brand boja.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Category page
 
-### `npm run eject`
+Klikom na ikonu određene kategorije korisnik se usmjerava na stranicu te kategorije gdje su izlistani članci te kategorije. Neki članci mogu biti u više kategorija, ali u člancima se nalazi naziv kategorije koja je bila u dolaznim podacima. Ako članak nije imao kategoriju business, health, science, sports, ili technology, dodijeljena mu je kategorija general.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Search
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+U headeru aplikacije se nalazi search polje. Kad korisnik unese traženi pojam u search ništa se ne događa ako se korisnik ne nalazi na search stranici. Klikom na Search botun (na desktopu) ili borun povečala (na mobitelu) korisnik je odveden na Search stranicu te vidi rezultate pretrage. Ukoliko korisnik se već nalazi na Search stranici prilikom tipkanja u search polje šalje se pri promjeni novi zahtjev. Zbog tehničkih ograničenja od max 10 pretraga u minuti, dodijenjen je debounce od dvi sekunde, što otvara mogućnost errora ako se jako brzo listaju stranice, ali debounce od 6 sekundi bi bilo preloš user experience. PageSize za prtraživanje na New York Times API-u je 10, stoga sam dodao reklamu na početku i na kraju da ukupan broj artikala bude 12 te da stranica bude ispunjena.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Call to action
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Na vrhu aplikacije se nalazi tekst: 'Make MyNews your homepage' i 'Every day discover what’s trending on the internet!'. Nisam siguran što bi to bilo, pretpostavio sam nekakav call to action stoga sam dodao da klikom na botun GET se otvori pop-up prozor s instrukcijama kako stranicu pinat na Home screen na mobitelu ili dodati kao default page na Chromu. Klikom na Close it zatvara se prozor, a klikom na No, thanks nestaje cijelo call to action polje.
