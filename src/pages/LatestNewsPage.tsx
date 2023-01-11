@@ -1,6 +1,6 @@
+import { useRef, useLayoutEffect, useState } from "react";
 import LatestArticles from "../components/LatestArticles";
 import "../styles/LatestNewsPage.scss";
-import { useRef, useLayoutEffect, useState } from "react";
 
 const LatestNewsPage = () => {
   const latestWrapper = useRef<HTMLDivElement>(null);

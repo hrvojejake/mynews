@@ -1,9 +1,10 @@
-import ArticleLatest from "./ArticleLatest";
-import "../styles/LatestArticles.scss";
+import { useMemo } from "react";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Loader from "./Loader";
+import ArticleLatest from "./ArticleLatest";
+import "../styles/LatestArticles.scss";
 
 const LatestArticles = () => {
   const fetchProjects = ({ pageParam = 1 }) => {
@@ -50,7 +51,7 @@ const LatestArticles = () => {
   );
   const more = characters?.length === data?.pages[0].totalResults;
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <Loader />;
 
   if (status === "error") return <p>Error...</p>;
 
@@ -61,7 +62,7 @@ const LatestArticles = () => {
           dataLength={characters ? characters.length : 0}
           next={() => fetchNextPage()}
           hasMore={!more}
-          loader={<h4>Loading...</h4>}
+          loader={<Loader />}
           scrollableTarget="scrollableDiv"
         >
           {characters?.map((article: any) => (

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { navigationData } from "../data/navigationData";
-import "../styles/Navigation.scss";
 import { useMyNews } from "../context/MyNewsContext";
+import "../styles/Navigation.scss";
 
 const Navigation = () => {
   const { openMenu, setOpenMenu } = useMyNews();

@@ -1,22 +1,26 @@
-import { useParams } from "react-router-dom";
-
 import "../styles/SearchPage.scss";
 import { useMyNews } from "../context/MyNewsContext";
-import { useState, useEffect, useMemo } from "react";
 import Article from "../components/Article";
 
 type filteredArticleProps = {
-    uri: string;
-    title: string;
-    section: string;
-    author: string;
-    image: any;
-    url: string;
-  };
+  uri: string;
+  title: string;
+  section: string;
+  author: string;
+  image: any;
+  url: string;
+};
 
 const SearchPage = () => {
   // const query = useParams()
-  const { searchTerm, searchPage, setSearchPage, maxSearchPage, searchDataTrue, searchData } = useMyNews(); 
+  const {
+    searchTerm,
+    searchPage,
+    setSearchPage,
+    maxSearchPage,
+    searchDataTrue,
+    searchData
+  } = useMyNews();
 
   return (
     <>
@@ -25,7 +29,10 @@ const SearchPage = () => {
         <>
           <h3>Search for: {searchTerm}</h3>
           <div className="c-search-btn-wrap">
-            <button onClick={() => setSearchPage(searchPage - 1)} disabled={searchPage === 1}>
+            <button
+              onClick={() => setSearchPage(searchPage - 1)}
+              disabled={searchPage === 1}
+            >
               Previous
             </button>
 

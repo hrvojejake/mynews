@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
 import React from "react";
-import "../styles/Header.scss";
 import { useMyNews } from "../context/MyNewsContext";
+import { NavLink } from "react-router-dom";
+import "../styles/Header.scss";
 
 const Header = ({ children }: { children: React.ReactNode }) => {
   const { openMenu, setOpenMenu } = useMyNews();

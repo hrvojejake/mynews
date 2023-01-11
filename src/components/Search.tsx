@@ -1,16 +1,23 @@
-import "../styles/Search.scss";
+import { useRef, useEffect, useState } from "react";
 import { useMyNews } from "../context/MyNewsContext";
 import { Link, useLocation } from "react-router-dom";
-import { useRef, useEffect, useState } from "react";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-
+import axios from "axios";
+import adArticles from "../data/ads.json";
+import "../styles/Search.scss";
 
 const Search = () => {
   const location = useLocation();
-  const { searchTerm, setSearchTerm, searchPage, setMaxSearchPage, setSearchDataTrue, setSearchData } = useMyNews();
+  const {
+    searchTerm,
+    setSearchTerm,
+    searchPage,
+    setMaxSearchPage,
+    setSearchDataTrue,
+    setSearchData
+  } = useMyNews();
   const searchField = useRef<HTMLInputElement>(null);
-  const [searchFieldText, setSearchFieldText] = useState<string>('')
+  const [searchFieldText, setSearchFieldText] = useState<string>("");
 
   const fetchProjects = (searchPage: number, searchTerm: string) => {
     return axios
@@ -32,7 +39,8 @@ const Search = () => {
     ["projects", searchPage, searchTerm],
     () => fetchProjects(searchPage, searchTerm),
     {
-      enabled: false
+      enabled: false,
+      staleTime: 6000
     }
   );
 
@@ -68,24 +76,29 @@ const Search = () => {
 
   useEffect(() => {
     if (data) {
-      setMaxSearchPage(data?.response.meta.hits)
-      setSearchData(filteredArticles)
+      filteredArticles?.unshift(adArticles[0]);
+      filteredArticles?.push(adArticles[1]);
+      setMaxSearchPage(data?.response.meta.hits);
+      setSearchData(filteredArticles);
     }
-    setSearchDataTrue(!!data)
+    setSearchDataTrue(!!data);
   }, [data]);
 
-//search dodat reklame
-//search dodat na enter
-//search provjerit zasto neće odmah
-//dodat loader
+  //search dodat na enter
+  //search provjerit zasto neće odmah
+  //dodat loader
 
   return (
     <div className="l-search-wrap">
       {location.pathname.search("search") > 0 ? (
         <button
+          aria-label="search"
           className="mynews-Search c-search-icon-btn"
           disabled={!searchFieldText}
-          onClick={() =>{if(searchField.current?.value)setSearchTerm(searchField.current?.value)}}
+          onClick={() => {
+            if (searchField.current?.value)
+              setSearchTerm(searchField.current?.value);
+          }}
         ></button>
       ) : (
         <Link to={`/search`} className="mynews-Search c-search-icon-btn"></Link>
@@ -95,14 +108,17 @@ const Search = () => {
         type="text"
         placeholder="Search news"
         value={searchFieldText}
-        onChange={(e)=>setSearchFieldText(e.target.value)}
+        onChange={(e) => setSearchFieldText(e.target.value)}
         className="l-search"
         ref={searchField}
       />
       {location.pathname.search("search") > 0 ? (
         <button
           className="c-search-btn"
-          onClick={() =>{if(searchField.current?.value)setSearchTerm(searchField.current?.value)}}
+          onClick={() => {
+            if (searchField.current?.value)
+              setSearchTerm(searchField.current?.value);
+          }}
           disabled={!searchFieldText}
         >
           Search

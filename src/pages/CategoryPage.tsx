@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Article from "../components/Article";
+import Loader from "../components/Loader";
 import "../styles/CategoryPage.scss";
 
 const CategoryPage = () => {
@@ -30,7 +31,7 @@ const CategoryPage = () => {
   );
   /* if data is not done */
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
   /* when data is done filter it */
 

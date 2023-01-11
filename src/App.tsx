@@ -1,19 +1,15 @@
-import "./styles/App.scss";
+import { useMyNews } from "./context/MyNewsContext";
 import { Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MakeHomepageCTA from "./components/MakeHomepageCTA";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Home from "./pages/Home";
-import CategoryPage from "./pages/CategoryPage";
 import LatestNewsPage from "./pages/LatestNewsPage";
-import SearchPage from "./pages/SearchPage";
 import Error404 from "./pages/Error404";
-import articlesData from "./data/home.json";
-import { useState } from "react";
 import Navigation from "./components/Navigation";
-import { useMyNews } from "./context/MyNewsContext";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CategoryPageWrap from "./pages/CategoryPageWrap";
+import "./styles/App.scss";
 
 function App() {
   const { openMenu } = useMyNews();

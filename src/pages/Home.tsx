@@ -1,21 +1,22 @@
+import { useState, useMemo } from "react";
+import { useMyNews } from "../context/MyNewsContext";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Article from "../components/Article";
-import "../styles/Home.scss";
 import LatestArticleWrap from "../components/LatestArticleWrap";
 import LatestArticles from "../components/LatestArticles";
-import { useMyNews } from "../context/MyNewsContext";
-import { useState, useMemo } from "react";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import FavoriteArticles from "../components/FavoriteArticles";
+import Loader from "../components/Loader";
 import adArticles from "../data/ads.json";
+import "../styles/Home.scss";
 
 type filteredArticleProps = {
   uri: string;
   title: string;
   section: string;
   author: string;
-  image: any;
-  url?:string
+  image: string[];
+  url?: string;
 };
 
 const Home = () => {
@@ -59,18 +60,14 @@ const Home = () => {
         };
       });
 
-      articlesBeforeManipulation[Math.floor(Math.random() * 4)].section='breaking'
+      articlesBeforeManipulation[Math.floor(Math.random() * 4)].section =
+        "breaking";
       const adsArticles = adArticles;
-      console.log(adsArticles)
-      console.log(articlesBeforeManipulation)
-      
-      for(let i=0;i<adArticles.length; i++){
-        articlesBeforeManipulation.splice(i*6 + 6,0,adsArticles[i])
+
+      for (let i = 0; i < adArticles.length; i++) {
+        articlesBeforeManipulation.splice(i * 6 + 6, 0, adsArticles[i]);
       }
-
-      console.log(articlesBeforeManipulation)
-
-      return articlesBeforeManipulation
+      return articlesBeforeManipulation;
     }
     if (!newsData) {
       return [{}];
@@ -78,8 +75,12 @@ const Home = () => {
   }, [newsData]);
 
   if (newsIsLoading) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
+  if (newsIsError) {
+    return <h3>We are having technical difficulties</h3>;
+  }
+  console.log(filteredArticles);
 
   return (
     <>
@@ -100,7 +101,7 @@ const Home = () => {
                     ))
                 : null}
             </section>
-            <FavoriteArticles />
+            {favoriteArticles.length > 0 && <FavoriteArticles />}
           </>
         ) : (
           <>
@@ -117,23 +118,26 @@ const Home = () => {
               >
                 Latest
               </button>
-              <button className={`${mobileView === "favorite" && "active"}`}
-                onClick={() => setMobileView("favorite")}
-              >
-                Favorite
-              </button>
+              {favoriteArticles.length > 0 && (
+                <button
+                  className={`${mobileView === "favorite" && "active"}`}
+                  onClick={() => setMobileView("favorite")}
+                >
+                  Favorite
+                </button>
+              )}
             </div>
             {mobileView === "default" && (
               <>
-              <h3>News</h3>
-              <section className="l-page-main l-page-home-mob">
-                {filteredArticles.length > 1
-                  ? filteredArticles.map((article: filteredArticleProps) => (
-                    <Article article={article} key={article.uri} />
-                    ))
+                <h3>News</h3>
+                <section className="l-page-main l-page-home-mob">
+                  {filteredArticles.length > 1
+                    ? filteredArticles.map((article: filteredArticleProps) => (
+                        <Article article={article} key={article.uri} />
+                      ))
                     : null}
-              </section>
-                    </>
+                </section>
+              </>
             )}
             {mobileView === "latest" && (
               <section className="l-page-main l-page-home-latest">
@@ -142,9 +146,7 @@ const Home = () => {
                 </LatestArticleWrap>
               </section>
             )}
-            {mobileView === "favorite" && (
-              <FavoriteArticles />
-            )}
+            {mobileView === "favorite" && <FavoriteArticles />}
           </>
         )
       }
