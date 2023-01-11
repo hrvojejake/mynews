@@ -5,6 +5,7 @@ import "../styles/Article.scss";
 const Article = ({ article }: any) => {
   const { favoriteArticles, setFavoriteArticles } = useMyNews();
 
+  /* function for add/remove favorite article */
   const addFavorite = () => {
     if (favoriteArticles.some((e) => e.uri === article.uri)) {
       setFavoriteArticles([

@@ -8,7 +8,6 @@ const LatestNewsPage = () => {
 
   useLayoutEffect(() => {
     if (latestWrapper.current) {
-      const { height } = latestWrapper.current.getBoundingClientRect();
       const calcHeight: number =
         window.screen.height -
         latestWrapper.current.getBoundingClientRect().top -

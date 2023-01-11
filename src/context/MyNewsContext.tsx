@@ -11,7 +11,7 @@ type MyNewsProviderProps = {
   children: ReactNode;
 };
 
-type MyNewsContext = {
+type MyNewsContextProp = {
   showCTA: boolean;
   setShowCTA: React.Dispatch<React.SetStateAction<boolean>>;
   showCTABuble: boolean;
@@ -35,6 +35,8 @@ type MyNewsContext = {
   setFavoriteArticles: React.Dispatch<
     React.SetStateAction<filteredArticleProps[]>
   >;
+  searchError: boolean;
+  setSearchError: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type filteredArticleProps = {
@@ -46,7 +48,7 @@ type filteredArticleProps = {
   url: string;
 };
 
-export const MyNewsContext = createContext({} as MyNewsContext);
+export const MyNewsContext = createContext({} as MyNewsContextProp);
 
 export function useMyNews() {
   return useContext(MyNewsContext);
@@ -79,6 +81,7 @@ export const MyNewsProvider = ({ children }: MyNewsProviderProps) => {
   const [searchData, setSearchData] = useState<filteredArticleProps[]>([]);
   const [searchDataTrue, setSearchDataTrue] = useState<boolean>(false);
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
+  const [searchError, setSearchError] = useState<boolean>(false);
 
   /* Favorite */
   const [favoriteArticles, setFavoriteArticles] = useLocalStorage<
@@ -108,7 +111,9 @@ export const MyNewsProvider = ({ children }: MyNewsProviderProps) => {
         searchLoading,
         setSearchLoading,
         favoriteArticles,
-        setFavoriteArticles
+        setFavoriteArticles,
+        searchError,
+        setSearchError
       }}
     >
       {children}

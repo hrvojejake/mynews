@@ -7,6 +7,7 @@ import ArticleLatest from "./ArticleLatest";
 import "../styles/LatestArticles.scss";
 
 const LatestArticles = () => {
+  /* axios setup, page size is 10, can go till 100 */
   const fetchProjects = ({ pageParam = 1 }) => {
     return axios
       .get(
@@ -15,23 +16,16 @@ const LatestArticles = () => {
       .then((res) => res.data);
   };
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status
-  } = useInfiniteQuery({
-    queryKey: ["latest"],
-    queryFn: fetchProjects,
-    getNextPageParam: (lastPage, pages) => {
-      const maxPages = lastPage.totalResults / 10 + 1;
-      const nextPage = pages.length + 1;
-      return nextPage <= maxPages ? nextPage : undefined;
-    }
-  });
+  const { data, fetchNextPage, isFetching, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["latest"],
+      queryFn: fetchProjects,
+      getNextPageParam: (lastPage, pages) => {
+        const maxPages = lastPage.totalResults / 10 + 1;
+        const nextPage = pages.length + 1;
+        return nextPage <= maxPages ? nextPage : undefined;
+      }
+    });
 
   const characters = useMemo(
     () =>

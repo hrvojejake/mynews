@@ -1,6 +1,7 @@
-import "../styles/SearchPage.scss";
 import { useMyNews } from "../context/MyNewsContext";
 import Article from "../components/Article";
+import Loader from "../components/Loader";
+import "../styles/SearchPage.scss";
 
 type filteredArticleProps = {
   uri: string;
@@ -19,7 +20,9 @@ const SearchPage = () => {
     setSearchPage,
     maxSearchPage,
     searchDataTrue,
-    searchData
+    searchData,
+    searchLoading,
+    searchError
   } = useMyNews();
 
   return (
@@ -52,6 +55,8 @@ const SearchPage = () => {
           </section>
         </>
       )}
+      {searchTerm && searchLoading && <Loader />}
+      {searchError && <h3>We are having technical difficulties</h3>}
     </>
   );
 };

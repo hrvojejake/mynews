@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useMyNews } from "../context/MyNewsContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -6,6 +6,7 @@ import Article from "../components/Article";
 import LatestArticleWrap from "../components/LatestArticleWrap";
 import LatestArticles from "../components/LatestArticles";
 import FavoriteArticles from "../components/FavoriteArticles";
+import { useLocation } from "react-router-dom";
 import Loader from "../components/Loader";
 import adArticles from "../data/ads.json";
 import "../styles/Home.scss";
@@ -20,8 +21,17 @@ type filteredArticleProps = {
 };
 
 const Home = () => {
-  const { windowWidth, favoriteArticles } = useMyNews();
+  const { windowWidth, favoriteArticles, setSearchTerm } = useMyNews();
   const [mobileView, setMobileView] = useState<string>("default");
+  const location = useLocation();
+
+  /* remove search term */
+  useEffect(() => {
+    if (location.pathname.search("search") < 0) {
+      setSearchTerm("");
+    }
+  }, []);
+
   const {
     data: newsData,
     isLoading: newsIsLoading,
@@ -35,7 +45,7 @@ const Home = () => {
         )
         .then((res) => res.data);
     },
-    { staleTime: 6000 }
+    { staleTime: 60000 }
   );
 
   const filteredArticles = useMemo(() => {
@@ -80,7 +90,6 @@ const Home = () => {
   if (newsIsError) {
     return <h3>We are having technical difficulties</h3>;
   }
-  console.log(filteredArticles);
 
   return (
     <>

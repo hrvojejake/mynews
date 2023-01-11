@@ -1,7 +1,8 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMyNews } from "../context/MyNewsContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import useDebounce from "../hooks/useDebounce";
 import axios from "axios";
 import adArticles from "../data/ads.json";
 import "../styles/Search.scss";
@@ -14,11 +15,15 @@ const Search = () => {
     searchPage,
     setMaxSearchPage,
     setSearchDataTrue,
-    setSearchData
+    setSearchData,
+    setSearchLoading,
+    setSearchError
   } = useMyNews();
-  const searchField = useRef<HTMLInputElement>(null);
-  const [searchFieldText, setSearchFieldText] = useState<string>("");
 
+  let navigate = useNavigate();
+  const debouncedSearchQuery = useDebounce(searchTerm, 600);
+
+  /* axios setup, searching for term in headline */
   const fetchProjects = (searchPage: number, searchTerm: string) => {
     return axios
       .get(
@@ -27,28 +32,39 @@ const Search = () => {
       .then((res) => res.data);
   };
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data,
-    isFetching,
-    refetch,
-    isPreviousData
-  } = useQuery(
+  const { isLoading, isError, data, refetch } = useQuery(
     ["projects", searchPage, searchTerm],
-    () => fetchProjects(searchPage, searchTerm),
+    () => fetchProjects(searchPage, debouncedSearchQuery),
     {
       enabled: false,
       staleTime: 6000
     }
   );
 
+  /* fetch data on mount */
   useEffect(() => {
     if (searchTerm) {
       refetch();
     }
-  }, [searchPage, searchTerm]);
+    if (location.pathname.search("search") < 0) {
+      setSearchTerm("");
+    }
+  }, []);
+
+  /* fetch data change of query page of search term */
+  useEffect(() => {
+    if (searchTerm) {
+      refetch();
+    }
+  }, [searchPage, debouncedSearchQuery]);
+
+  useEffect(() => {
+    setSearchLoading(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    setSearchError(isError);
+  }, [isError]);
 
   const filteredArticles = data?.response.docs.map((ar: any) => {
     let category =
@@ -74,6 +90,7 @@ const Search = () => {
     };
   });
 
+  /* on data change add ads and ad data to searchData state */
   useEffect(() => {
     if (data) {
       filteredArticles?.unshift(adArticles[0]);
@@ -84,9 +101,12 @@ const Search = () => {
     setSearchDataTrue(!!data);
   }, [data]);
 
-  //search dodat na enter
-  //search provjerit zasto neće odmah
-  //dodat loader
+  /* add on key down for Enter to go to search page*/
+  const keyPressHandler = (e: any) => {
+    if (e.key === "Enter") {
+      navigate("/search/");
+    }
+  };
 
   return (
     <div className="l-search-wrap">
@@ -94,10 +114,11 @@ const Search = () => {
         <button
           aria-label="search"
           className="mynews-Search c-search-icon-btn"
-          disabled={!searchFieldText}
+          disabled={!(searchTerm?.length > 0)}
           onClick={() => {
-            if (searchField.current?.value)
-              setSearchTerm(searchField.current?.value);
+            if (searchTerm?.length > 0) {
+              refetch();
+            }
           }}
         ></button>
       ) : (
@@ -107,19 +128,20 @@ const Search = () => {
       <input
         type="text"
         placeholder="Search news"
-        value={searchFieldText}
-        onChange={(e) => setSearchFieldText(e.target.value)}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         className="l-search"
-        ref={searchField}
+        onKeyDown={keyPressHandler}
       />
       {location.pathname.search("search") > 0 ? (
         <button
           className="c-search-btn"
           onClick={() => {
-            if (searchField.current?.value)
-              setSearchTerm(searchField.current?.value);
+            if (searchTerm?.length > 0) {
+              refetch();
+            }
           }}
-          disabled={!searchFieldText}
+          disabled={!(searchTerm?.length > 0)}
         >
           Search
         </button>

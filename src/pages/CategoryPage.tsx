@@ -1,4 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useMyNews } from "../context/MyNewsContext";
+import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Article from "../components/Article";
@@ -6,6 +8,8 @@ import Loader from "../components/Loader";
 import "../styles/CategoryPage.scss";
 
 const CategoryPage = () => {
+  const location = useLocation();
+  const { setSearchTerm } = useMyNews();
   const { category } = useParams();
   const categoryFiltered = category?.slice(9);
 
@@ -29,12 +33,24 @@ const CategoryPage = () => {
     },
     { staleTime: 6000 }
   );
+
+  /* remove search term */
+  useEffect(() => {
+    if (location.pathname.search("search") < 0) {
+      setSearchTerm("");
+    }
+  }, []);
+
   /* if data is not done */
   if (isLoading) {
     return <Loader />;
   }
-  /* when data is done filter it */
 
+  if (isError) {
+    return <h3>We are having technical difficulties</h3>;
+  }
+
+  /* when data is done filter it */
   const allFilteredArticles = [...data.results].filter((el: any) => el.title);
   const filteredArticles = allFilteredArticles.map((ar: any) => {
     const category =
