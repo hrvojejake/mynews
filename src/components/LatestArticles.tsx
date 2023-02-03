@@ -5,7 +5,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "./Loader";
 import ArticleLatest from "./ArticleLatest";
 import "../styles/LatestArticles.scss";
-import {LatestNewRawDataRootObject, LatestNewRawDataArticle, articleItemLatestProps} from '../types/types'
+import {
+  LatestNewRawDataRootObject,
+  LatestNewRawDataArticle,
+  articleItemLatestProps
+} from "../types/types";
 
 const LatestArticles = () => {
   /* axios setup, page size is 10, can go till 100 */

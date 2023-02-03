@@ -6,7 +6,7 @@ import useDebounce from "../hooks/useDebounce";
 import axios from "axios";
 import adArticles from "../data/ads.json";
 import "../styles/Search.scss";
-import {SearchRawDataRootObject} from '../types/types'
+import { SearchRawDataRootObject } from "../types/types";
 
 const Search = () => {
   const location = useLocation();
@@ -71,29 +71,30 @@ const Search = () => {
     // eslint-disable-next-line
   }, [isError]);
 
-  const filteredArticles = data?.response.docs.map((article: SearchRawDataRootObject) => {
-    let category =
-      article.section_name === "Business" ||
-      article.section_name === "Health" ||
-      article.section_name === "Science" ||
-      article.section_name === "Sports" ||
-      article.section_name === "Technology"
-        ? article.section_name
-        : "general";
-    if (article.section_name === "Business Day") {
-      category = "Business";
+  const filteredArticles = data?.response.docs.map(
+    (article: SearchRawDataRootObject) => {
+      let category =
+        article.section_name === "Business" ||
+        article.section_name === "Health" ||
+        article.section_name === "Science" ||
+        article.section_name === "Sports" ||
+        article.section_name === "Technology"
+          ? article.section_name
+          : "general";
+      if (article.section_name === "Business Day") {
+        category = "Business";
+      }
+      const img = article.multimedia?.[0]?.url;
+      return {
+        uri: article.uri,
+        url: article.web_url,
+        title: article.headline.main,
+        section: category,
+        author: article.byline.original,
+        image: img !== undefined ? `https://static01.nyt.com/${img}` : ""
+      };
     }
-    const img = article.multimedia?.[0]?.url
-    console.log(data)
-    console.log(img)
-    return {
-      uri: article.uri,
-      title: article.headline.main,
-      section: category,
-      author: article.byline.original,
-      image: img !== undefined ? `https://static01.nyt.com/${img}` : ""
-    };
-  });
+  );
 
   /* on data change add ads and add data to searchData state */
   useEffect(() => {

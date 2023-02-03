@@ -1,8 +1,7 @@
 import { useMyNews } from "../context/MyNewsContext";
 import ArticlePlaceholderImg from "../assets/images/Article-placeholder.jpg";
 import "../styles/Article.scss";
-import {articleProps,articleItemProps} from '../types/types'
-
+import { articleProps, articleItemProps } from "../types/types";
 
 const Article = ({ article }: articleProps) => {
   const { favoriteArticles, setFavoriteArticles } = useMyNews();
@@ -22,8 +21,8 @@ const Article = ({ article }: articleProps) => {
 
   return (
     <article
-      className={`${article.section === "breaking" && "c-article-breaking"} 
-    ${article.section === "ad" && "c-article-ad"} c-article`}
+      className={`${article.section === "breaking" ? "c-article-breaking" : ""} 
+    ${article.section === "ad" ? "c-article-ad" : ""} c-article`}
     >
       <div className="c-article-img">
         <img src={article.image || ArticlePlaceholderImg} alt={article.title} />
@@ -31,7 +30,14 @@ const Article = ({ article }: articleProps) => {
 
       <div className="c-article-body">
         <h6>{article.section}</h6>
-        <a href={article.url} target='_blank' rel="noreferrer" className="c-article-link"><h3>{article.title}</h3></a> 
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noreferrer"
+          className="c-article-link"
+        >
+          <h3>{article.title}</h3>
+        </a>
         <div className="c-article-footer">
           <p className="c-article-author">{article.author}</p>
           <div className="c-article-fav" onClick={addFavorite}>
@@ -51,7 +57,9 @@ const Article = ({ article }: articleProps) => {
           className="c-article-ad-link"
           target="_blank"
           rel="noopener noreferrer"
-        >{article.title}</a>
+        >
+          {article.title}
+        </a>
       )}
     </article>
   );

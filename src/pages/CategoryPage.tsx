@@ -6,7 +6,7 @@ import axios from "axios";
 import Article from "../components/Article";
 import Loader from "../components/Loader";
 import "../styles/CategoryPage.scss";
-import { NYTItem } from '../types/types'
+import { NYTItem } from "../types/types";
 
 const CategoryPage = () => {
   const location = useLocation();
@@ -53,7 +53,9 @@ const CategoryPage = () => {
   }
 
   /* when data is done filter it */
-  const allFilteredArticles = [...data.results].filter((element: NYTItem) => element.title);
+  const allFilteredArticles = [...data.results].filter(
+    (element: NYTItem) => element.title
+  );
   const filteredArticles = allFilteredArticles.map((article: NYTItem) => {
     const category =
       article.section === "business" ||

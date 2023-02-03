@@ -1,18 +1,18 @@
 [
   {
-    "uri": "profico-ad-001",
-    "title": "We're hiring Frontend Developer",
+    "uri": "upwork-ad-001",
+    "title": "We're hiring Freelance Developers",
     "section": "ad",
-    "author": "Profico",
-    "image": ["/img/profico1.jpg"],
-    "url": "https://profi.co/careers"
+    "author": "Upwork",
+    "image": ["/img/ad-01.jpg"],
+    "url": "https://www.upwork.com/cat/developers/"
   },
   {
-    "uri": "profico-ad-002",
-    "title": "Open position Product designer",
+    "uri": "topal-ad-001",
+    "title": "Hire Top Freelance Project Manager Now",
     "section": "ad",
-    "author": "Profico",
-    "image": ["/img/profico2.jpg"],
-    "url": "https://profi.co/careers"
+    "author": "Topal",
+    "image": ["/img/ad-02.jpg"],
+    "url": "https://www.toptal.com/project-managers/hire-project-managers"
   }
 ]

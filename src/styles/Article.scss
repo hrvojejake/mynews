@@ -42,9 +42,9 @@
     overflow: hidden;
     flex-grow: 1;
   }
-  .c-article-link{
+  .c-article-link {
     text-decoration: none;
-    &:hover h3{
+    &:hover h3 {
       color: $primary;
     }
   }
@@ -77,6 +77,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 266px;
   .c-article-img {
     display: none;
   }
